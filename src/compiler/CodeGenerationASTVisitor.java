@@ -36,7 +36,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 	@Override
 	public String visitNode(FunNode n) {
 		if (print) printNode(n,n.id);
-		for (ParNode par : n.parlist) visit(par);
+		for (ParNode par : n.parlist) visit(par); //TODO DA ERRORE PERCHE NON C'E IL METODO PER VISITARE PARNODE
 		for (Node dec : n.declist) visit(dec);
 		visit(n.exp);
 		String funl = freshFunLabel();

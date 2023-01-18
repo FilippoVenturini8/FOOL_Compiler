@@ -1,7 +1,7 @@
 // Generated from D:/Progetti/FOOL/src/svm\SVM.g4 by ANTLR 4.10.1
 package svm;
 
-import java.util.*;
+import java.util.HashMap;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -96,11 +96,13 @@ public class SVMParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	 
+
+	      
 	public int[] code = new int[ExecuteVM.CODESIZE];    
-	private int i = 0;
-	private Map<String,Integer> labelDef = new HashMap<>();
-	private Map<Integer,String> labelRef = new HashMap<>();
+	    private int i = 0;
+	    private HashMap<String,Integer> labelDef = new HashMap<String,Integer>();
+	    private HashMap<Integer,String> labelRef = new HashMap<Integer,String>();
+	        
 
 	public SVMParser(TokenStream input) {
 		super(input);
@@ -157,9 +159,9 @@ public class SVMParser extends Parser {
 			}
 			setState(10);
 			match(EOF);
-			 for (Integer j: labelRef.keySet()) 
-											code[j]=labelDef.get(labelRef.get(j)); 
-										
+			 for (Integer j: labelRef.keySet())
+				                        code[j]=labelDef.get(labelRef.get(j));
+					               
 			}
 		}
 		catch (RecognitionException re) {
