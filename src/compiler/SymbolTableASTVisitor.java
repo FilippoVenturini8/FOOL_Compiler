@@ -19,7 +19,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 		int j = nestingLevel;
 		STentry entry = null;
 		while (j >= 0 && entry == null) 
-			entry = symTable.get(j--).get(id);	
+			entry = symTable.get(j--).get(id);
 		return entry;
 	}
 
@@ -40,7 +40,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 		visit(n.exp);
 		return null;
 	}
-	
+
 	@Override
 	public Void visitNode(FunNode n) {
 		if (print) printNode(n);
@@ -191,7 +191,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 			System.out.println("Fun id " + n.id + " at line "+ n.getLine() + " not declared");
 			stErrors++;
 		} else {
-			n.entry = entry;
+			n.entry = entry; //ARRICCHIMENTO ALBERO
 			n.nl = nestingLevel;
 		}
 		for (Node arg : n.arglist) visit(arg);
@@ -206,7 +206,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 			System.out.println("Var or Par id " + n.id + " at line "+ n.getLine() + " not declared");
 			stErrors++;
 		} else {
-			n.entry = entry;
+			n.entry = entry; //ARRICCHIMENTO ALBERO
 			n.nl = nestingLevel;
 		}
 		return null;
