@@ -1,7 +1,7 @@
 // Generated from D:/Progetti/FOOL/src/svm\SVM.g4 by ANTLR 4.10.1
 package svm;
 
-import java.util.HashMap;
+import java.util.*;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

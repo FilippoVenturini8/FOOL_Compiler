@@ -1,7 +1,7 @@
 // Generated from D:/Progetti/FOOL/src/svm\SVM.g4 by ANTLR 4.10.1
 package svm;
 
-import java.util.HashMap;
+import java.util.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -23,7 +23,7 @@ public class SVMParser extends Parser {
 		PUSH=1, POP=2, ADD=3, SUB=4, MULT=5, DIV=6, STOREW=7, LOADW=8, BRANCH=9, 
 		BRANCHEQ=10, BRANCHLESSEQ=11, JS=12, LOADRA=13, STORERA=14, LOADTM=15, 
 		STORETM=16, LOADFP=17, STOREFP=18, COPYFP=19, LOADHP=20, STOREHP=21, PRINT=22, 
-		HALT=23, COL=24, LABEL=25, INTEGER=26, WHITESP=27, ERR=28;
+		HALT=23, COL=24, LABEL=25, INTEGER=26, COMMENT=27, WHITESP=28, ERR=29;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
 	private static String[] makeRuleNames() {
@@ -47,7 +47,7 @@ public class SVMParser extends Parser {
 			null, "PUSH", "POP", "ADD", "SUB", "MULT", "DIV", "STOREW", "LOADW", 
 			"BRANCH", "BRANCHEQ", "BRANCHLESSEQ", "JS", "LOADRA", "STORERA", "LOADTM", 
 			"STORETM", "LOADFP", "STOREFP", "COPYFP", "LOADHP", "STOREHP", "PRINT", 
-			"HALT", "COL", "LABEL", "INTEGER", "WHITESP", "ERR"
+			"HALT", "COL", "LABEL", "INTEGER", "COMMENT", "WHITESP", "ERR"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -96,13 +96,11 @@ public class SVMParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-
-	      
+	 
 	public int[] code = new int[ExecuteVM.CODESIZE];    
-	    private int i = 0;
-	    private HashMap<String,Integer> labelDef = new HashMap<String,Integer>();
-	    private HashMap<Integer,String> labelRef = new HashMap<Integer,String>();
-	        
+	private int i = 0;
+	private Map<String,Integer> labelDef = new HashMap<>();
+	private Map<Integer,String> labelRef = new HashMap<>();
 
 	public SVMParser(TokenStream input) {
 		super(input);
@@ -159,9 +157,9 @@ public class SVMParser extends Parser {
 			}
 			setState(10);
 			match(EOF);
-			 for (Integer j: labelRef.keySet())
-				                        code[j]=labelDef.get(labelRef.get(j));
-					               
+			 for (Integer j: labelRef.keySet()) 
+											code[j]=labelDef.get(labelRef.get(j)); 
+										
 			}
 		}
 		catch (RecognitionException re) {
@@ -461,7 +459,7 @@ public class SVMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001cH\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0001"+
+		"\u0004\u0001\u001dH\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0001"+
 		"\u0000\u0005\u0000\u0006\b\u0000\n\u0000\f\u0000\t\t\u0000\u0001\u0000"+
 		"\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+

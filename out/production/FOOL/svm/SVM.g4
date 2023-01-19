@@ -1,29 +1,27 @@
 grammar SVM;
 
-@header {
-import java.util.HashMap;
+@parser::header {
+import java.util.*;
 }
 
 @lexer::members {
 public int lexicalErrors=0;
 }
-  
-@parser::members {
-      
+   
+@parser::members { 
 public int[] code = new int[ExecuteVM.CODESIZE];    
-    private int i = 0;
-    private HashMap<String,Integer> labelDef = new HashMap<String,Integer>();
-    private HashMap<Integer,String> labelRef = new HashMap<Integer,String>();
-        
+private int i = 0;
+private Map<String,Integer> labelDef = new HashMap<>();
+private Map<Integer,String> labelRef = new HashMap<>();
 }
 
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
    
-assembly: instruction* EOF { for (Integer j: labelRef.keySet())
-	                        code[j]=labelDef.get(labelRef.get(j));
-		               } ;
+assembly: instruction* EOF 	{ for (Integer j: labelRef.keySet()) 
+								code[j]=labelDef.get(labelRef.get(j)); 
+							} ;
 
 instruction : 
         PUSH n=INTEGER   {code[i++] = PUSH; 
@@ -90,7 +88,9 @@ COL	 : ':' ;
 LABEL	 : ('a'..'z'|'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9')* ;
 INTEGER	 : '0' | ('-')?(('1'..'9')('0'..'9')*) ;
 
+COMMENT : '/*' .*? '*/' -> channel(HIDDEN) ;
+
 WHITESP  : (' '|'\t'|'\n'|'\r')+ -> channel(HIDDEN) ;
 
-ERR	     : . { System.out.println("Invalid char: "+ getText()); lexicalErrors++; } -> channel(HIDDEN); 
+ERR	     : . { System.out.println("Invalid char: "+getText()+" at line "+getLine()); lexicalErrors++; } -> channel(HIDDEN); 
 

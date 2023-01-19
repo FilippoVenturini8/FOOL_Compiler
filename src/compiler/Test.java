@@ -42,17 +42,17 @@ public class Test {
     		TypeNode mainType = typeCheckVisitor.visit(ast);
     		System.out.print("Type of main program expression is: ");
     		new PrintEASTVisitor().visit(mainType);
-    	} catch (IncomplException e) {
+    	} catch (IncomplException e) {    		
     		System.out.println("Could not determine main program expression type due to errors detected before type checking.");
     	} catch (TypeException e) {
-    		System.out.println("Type checking error in main program expression: "+e.text);
-    	}
+    		System.out.println("Type checking error in main program expression: "+e.text); 
+    	}       	
     	System.out.println("You had "+FOOLlib.typeErrors+" type checking errors.\n");
 
     	int frontEndErrors = lexer.lexicalErrors+parser.getNumberOfSyntaxErrors()+symtableVisitor.stErrors+FOOLlib.typeErrors;
 		System.out.println("You had a total of "+frontEndErrors+" front-end errors.\n");
-
-		if ( frontEndErrors > 0) System.exit(1);
+		
+		if ( frontEndErrors > 0) System.exit(1);   
 
 //    	System.out.println("Generating code.");
 //    	String code = new CodeGenerationASTVisitor().visit(ast);
