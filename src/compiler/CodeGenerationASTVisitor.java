@@ -133,21 +133,17 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 	@Override
 	public String visitNode(GreaterEqualNode n) {
 		if (print) printNode(n);
-		String l1 = freshLabel(); //l1 è >= quindi va bene (pusha 1)
-		String l2 = freshLabel(); // è < quindi è sbagliato (pusha 0)
-		String l3 = freshLabel(); // continua l'esecuzione (non fa nulla)
+		String l1 = freshLabel(); //push1
+		String l2 = freshLabel(); //push0
 		return nlJoin(
-				visit(n.left),
 				visit(n.right),
-				"beq "+l1,
-				"bleq "+l2,
-				"b "+l1,
+				visit(n.left),
+				"bleq "+l1,
+				"push 0",
+				"b "+l2,
 				l1+":",
 				"push 1",
-				"b "+l3,
-				l2+":",
-				"push 0",
-				l3+":"
+				l2+":"
 		);
 	}
 
