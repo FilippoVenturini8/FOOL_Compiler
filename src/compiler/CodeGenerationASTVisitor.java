@@ -114,6 +114,101 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 	}
 
 	@Override
+	public String visitNode(LessEqualNode n) {
+		if (print) printNode(n);
+		String l1 = freshLabel();
+		String l2 = freshLabel();
+		return nlJoin(
+				visit(n.left),
+				visit(n.right),
+				"bleq "+l1,
+				"push 0",
+				"b "+l2,
+				l1+":",
+				"push 1",
+				l2+":"
+		);
+	}
+
+	@Override
+	public String visitNode(GreaterEqualNode n) {
+		if (print) printNode(n);
+		String l1 = freshLabel(); //l1 è >= quindi va bene (pusha 1)
+		String l2 = freshLabel(); // è < quindi è sbagliato (pusha 0)
+		String l3 = freshLabel(); // continua l'esecuzione (non fa nulla)
+		return nlJoin(
+				visit(n.left),
+				visit(n.right),
+				"beq "+l1,
+				"bleq "+l2,
+				"b "+l1,
+				l1+":",
+				"push 1",
+				"b "+l3,
+				l2+":",
+				"push 0",
+				l3+":"
+		);
+	}
+
+	@Override
+	public String visitNode(AndNode n) {
+		if (print) printNode(n);
+		String l1 = freshLabel(); //l1 and errato (pusha 0)
+		String l2 = freshLabel(); // l2 non fa nulla
+		return nlJoin(
+				visit(n.left),
+				"push 0",
+				"beq "+l1,
+				visit(n.right),
+				"push 0",
+				"beq "+l1,
+				"push 1",
+				"b "+l2,
+				l1+":",
+				"push 0",
+				l2+":"
+		);
+	}
+
+	@Override
+	public String visitNode(OrNode n) {
+		if (print) printNode(n);
+		String l1 = freshLabel(); //l1 corretto (pusha 1)
+		String l2 = freshLabel(); // l2 non fa nulla
+		return nlJoin(
+				visit(n.left),
+				"push 1",
+				"beq "+l1,
+				visit(n.right),
+				"push 1",
+				"beq "+l1,
+				"push 0",
+				"b "+l2,
+				l1+":",
+				"push 1",
+				l2+":"
+		);
+	}
+
+	@Override
+	public String visitNode(NotNode n) {
+		if (print) printNode(n);
+		String l1 = freshLabel(); //l1 inverte true con false
+		String l2 = freshLabel(); // l2 non fa nulla
+		return nlJoin(
+				visit(n.val),
+				"push 1",
+				"beq "+l1,
+				"push 1",
+				"b "+l2,
+				l1+":",
+				"push 0",
+				l2+":"
+		);
+	}
+
+	@Override
 	public String visitNode(TimesNode n) {
 		if (print) printNode(n);
 		return nlJoin(
@@ -124,12 +219,32 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 	}
 
 	@Override
+	public String visitNode(DivNode n) {
+		if (print) printNode(n);
+		return nlJoin(
+				visit(n.left),
+				visit(n.right),
+				"div"
+		);
+	}
+
+	@Override
 	public String visitNode(PlusNode n) {
 		if (print) printNode(n);
 		return nlJoin(
 			visit(n.left),
 			visit(n.right),
 			"add"				
+		);
+	}
+
+	@Override
+	public String visitNode(MinusNode n) {
+		if (print) printNode(n);
+		return nlJoin(
+				visit(n.left),
+				visit(n.right),
+				"sub"
 		);
 	}
 

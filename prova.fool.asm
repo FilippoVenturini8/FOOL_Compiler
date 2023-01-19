@@ -14,15 +14,15 @@ add
 lw
 js
 push 1
-beq label4
+beq label2
 push 10
-b label5
-label4: 
+b label3
+label2:
 lfp
 push -2
 add
 lw
-label5: 
+label3:
 print
 halt
 
@@ -34,19 +34,7 @@ push 2
 add
 lw
 lfp
-push 3
-lfp
-lw
-lw
-push -2
-add
-lw
-beq label0
 push 0
-b label1
-label0:
-push 1
-label1:
 lfp
 lw
 lw
@@ -77,10 +65,10 @@ push 1
 add
 lw
 push 1
-beq label2
+beq label0
 push 0
-b label3
-label2: 
+b label1
+label0:
 lfp
 push 3
 push 2
@@ -92,7 +80,7 @@ push -2
 add
 lw
 js
-label3: 
+label1:
 stm
 pop
 sra
