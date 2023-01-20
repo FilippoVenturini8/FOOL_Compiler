@@ -234,11 +234,12 @@ public class AST {
 	}
 
 	public static class ClassNode extends Node{
-
+		String id;
 		List<FieldNode> fields;
 		List<MethodNode> methods;
 
-		ClassNode(List<FieldNode> f, List<MethodNode> m){
+		ClassNode(String id_class, List<FieldNode> f, List<MethodNode> m){
+			id = id_class;
 			fields = Collections.unmodifiableList(f);
 			methods = Collections.unmodifiableList(m);
 		}
@@ -322,4 +323,25 @@ public class AST {
 		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
 	}
 
+	public static class MethodTypeNode extends TypeNode {
+		final ArrowTypeNode fun;
+
+		MethodTypeNode(ArrowTypeNode f){
+			fun = f;
+		}
+
+		@Override
+		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
+	}
+
+	public static class ClassTypeNode extends TypeNode {
+		List<TypeNode> allFields;
+		List<ArrowTypeNode> allMethods;
+		ClassTypeNode(List<TypeNode> fields, List<ArrowTypeNode> methods){
+			allFields = Collections.unmodifiableList(fields);
+			allMethods = Collections.unmodifiableList(methods);
+		}
+		@Override
+		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
+	}
 }
