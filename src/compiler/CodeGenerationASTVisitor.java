@@ -3,6 +3,9 @@ package compiler;
 import compiler.AST.*;
 import compiler.lib.*;
 import compiler.exc.*;
+
+import java.util.ArrayList;
+
 import static compiler.lib.FOOLlib.*;
 
 public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidException> {
@@ -62,6 +65,69 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 			)
 		);
 		return "push "+funl;		
+	}
+
+	@Override
+	public String visitNode(MethodNode n) {
+		if (print) printNode(n,n.id);
+		String declCode = null, popDecl = null, popParl = null;
+		for (Node dec : n.declist) {
+			declCode = nlJoin(declCode,visit(dec));
+			popDecl = nlJoin(popDecl,"pop");
+		}
+		for (int i=0;i<n.parlist.size();i++) popParl = nlJoin(popParl,"pop");
+		String label = freshFunLabel();
+		n.label = label;
+		putCode(
+				nlJoin(
+						label+":",
+						"cfp", // set $fp to $sp value
+						"lra", // load $ra value
+						declCode, // generate code for local declarations (they use the new $fp!!!)
+						visit(n.exp), // generate code for function body expression
+						"stm", // set $tm to popped value (function result)
+						popDecl, // remove local declarations from stack
+						"sra", // set $ra to popped value
+						"pop", // remove Access Link from stack
+						popParl, // remove parameters from stack
+						"sfp", // set $fp to popped value (Control Link)
+						"ltm", // load $tm value (function result)
+						"lra", // load $ra value
+						"js"  // jump to to popped address
+				)
+		);
+		return null;
+	}
+
+	@Override
+	public String visitNode(ClassNode n){
+		ArrayList<String> dispatchTable = new ArrayList<>();
+		for(MethodNode method : n.methods){
+			visit(method);
+			String label = method.label;
+			int offset = method.offset;
+			dispatchTable.add(offset,label);
+		}
+
+		String labelsCode = null;
+
+		for (String label : dispatchTable){
+			String lCode = nlJoin(
+					"push "+label, //Aggiunge l'etichetta allo stack
+					"lhp", //Aggiunge l'indirizzo hp a cui metterla
+					"sw", //Inserisce label all'indirizzo hp
+					"lhp", //Inserisce hp sullo stack
+					"push 1", //Inserisce 1 sullo stack
+					"add", //Incrementa hp e lo rimette sullo stack
+					"shp" //Si salva nel registro il valore incrementato di hp
+			);
+			labelsCode = nlJoin(label, lCode);
+		}
+
+		return nlJoin(
+				"lhp",
+				labelsCode
+		);
 	}
 
 	@Override
