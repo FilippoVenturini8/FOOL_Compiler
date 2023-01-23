@@ -261,6 +261,8 @@ public class AST {
 		final List<ParNode> parlist;
 		final List<DecNode> declist;
 		final Node exp;
+
+		int offset;
 		MethodNode(String i, TypeNode rt, List<ParNode> pl, List<DecNode> dl, Node e) {
 			id=i;
 			retType=rt;
@@ -280,6 +282,7 @@ public class AST {
 		final String id_method;
 		final List<Node> arglist;
 		STentry entry;
+		STentry methodEntry;
 		int nl;
 		ClassCallNode(String i_obj, String i_method, List<Node> p) {
 			id_obj = i_obj;
@@ -294,6 +297,7 @@ public class AST {
 	public static class NewNode extends Node{
 		String id_class;
 		List<FieldNode> fields;
+		STentry entry;
 		NewNode(String id, List<FieldNode>f){
 			id_class = id;
 			fields = Collections.unmodifiableList(f);
@@ -335,11 +339,11 @@ public class AST {
 	}
 
 	public static class ClassTypeNode extends TypeNode {
-		List<TypeNode> allFields;
-		List<ArrowTypeNode> allMethods;
-		ClassTypeNode(List<TypeNode> fields, List<ArrowTypeNode> methods){
-			allFields = Collections.unmodifiableList(fields);
-			allMethods = Collections.unmodifiableList(methods);
+		ArrayList<TypeNode> allFields;
+		ArrayList<ArrowTypeNode> allMethods;
+		ClassTypeNode(ArrayList<TypeNode> fields, ArrayList<ArrowTypeNode> methods){
+			allFields = fields;
+			allMethods = methods;
 		}
 		@Override
 		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
