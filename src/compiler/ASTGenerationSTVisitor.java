@@ -176,6 +176,12 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 	}
 
 	@Override
+	public Node visitIdType(IdTypeContext c) {
+		if (print) printVarAndProdName(c);
+		return new RefTypeNode(c.ID().getText());
+	}
+
+	@Override
 	public Node visitInteger(IntegerContext c) {
 		if (print) printVarAndProdName(c);
 		int v = Integer.parseInt(c.NUM().getText());
@@ -232,6 +238,75 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 		for (ExpContext arg : c.exp()) arglist.add(visit(arg));
 		Node n = new CallNode(c.ID().getText(), arglist);
 		n.setLine(c.ID().getSymbol().getLine());
+		return n;
+	}
+
+	@Override
+	public Node visitCldec(CldecContext c) {
+		if (print) printVarAndProdName(c);
+		List<FieldNode> fieldsList = new ArrayList<>();
+		for (int i = 1; i < c.ID().size(); i++) {
+			FieldNode f = new FieldNode(c.ID(i).getText(),(TypeNode) visit(c.type(i)));
+			f.setLine(c.ID(i).getSymbol().getLine());
+			fieldsList.add(f);
+		}
+		List<MethodNode> methodsList = new ArrayList<>();
+		for(int i = 1; i < c.methdec().size(); i++){
+			MethodNode m = (MethodNode) visit(c.methdec(i)); //TODO se non va il cast può essere un problema
+			methodsList.add(m);
+		}
+		Node n = new ClassNode(c.ID().get(0).getText(),fieldsList, methodsList);
+		n.setLine(c.ID(0).getSymbol().getLine());
+		return n;
+	}
+
+	@Override
+	public Node visitMethdec(MethdecContext c) {
+		if (print) printVarAndProdName(c);
+		List<ParNode> parList = new ArrayList<>();
+		for (int i = 1; i < c.ID().size(); i++) {
+			ParNode p = new ParNode(c.ID(i).getText(),(TypeNode) visit(c.type(i)));
+			p.setLine(c.ID(i).getSymbol().getLine());
+			parList.add(p);
+		}
+		List<DecNode> decList = new ArrayList<>();
+		for (DecContext dec : c.dec()) decList.add((DecNode) visit(dec));
+		Node n = null;
+		if (c.ID().size()>0) { //non-incomplete ST
+			n = new MethodNode(c.ID(0).getText(),(TypeNode)visit(c.type(0)),parList,decList,visit(c.exp()));
+			n.setLine(c.FUN().getSymbol().getLine());
+		}
+		return n;
+	}
+
+	@Override
+	public Node visitNew(NewContext c) {
+		if (print) printVarAndProdName(c);
+		List<Node> fieldsList = new ArrayList<>();
+		for (int i = 1; i < c.exp().size(); i++) {
+			Node f = visit(c.exp(i)); //TODO cast potrebbe dare problemi
+			fieldsList.add(f);
+		}
+		Node n = new NewNode(c.ID().getText(),fieldsList);
+		return n;
+	}
+
+	@Override
+	public Node visitNull(NullContext c) {
+		if (print) printVarAndProdName(c);
+		Node n = new EmptyNode();
+		return n;
+	}
+
+	@Override
+	public Node visitDotCall(DotCallContext c) {
+		if (print) printVarAndProdName(c);
+		List<Node> parList = new ArrayList<>();
+		for (int i = 1; i < c.exp().size(); i++) {
+			Node f = visit(c.exp(i)); //TODO NON C'è cast potrebbe dare problemi
+			parList.add(f);
+		}
+		Node n = new ClassCallNode(c.ID(0).getText(), c.ID(1).getText(),parList);
 		return n;
 	}
 }

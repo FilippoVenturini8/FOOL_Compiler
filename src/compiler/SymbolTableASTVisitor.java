@@ -90,6 +90,12 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 	}
 
 	@Override
+	public Void visitNode(EmptyNode n) {
+		if (print) printNode(n);
+		return null;
+	}
+
+	@Override
 	public Void visitNode(PrintNode n) {
 		if (print) printNode(n);
 		visit(n.exp);
@@ -226,7 +232,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 	}
 
 	@Override
-	public Void visitNode(ClassNode n) {
+	public Void visitNode(ClassNode n) { //TODO non viene chiamato mai, viene chiamata una classe prima di essere in symboltable
 		if (print) printNode(n);
 		Map<String, STentry> hm = symTable.get(nestingLevel);
 		ClassTypeNode type = new ClassTypeNode(new ArrayList<>(), new ArrayList<>());
