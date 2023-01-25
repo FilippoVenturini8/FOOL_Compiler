@@ -46,6 +46,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 	public Node visitLetInProg(LetInProgContext c) {
 		if (print) printVarAndProdName(c);
 		List<DecNode> declist = new ArrayList<>();
+		for (CldecContext clDec : c.cldec()) declist.add((DecNode) visit(clDec));
 		for (DecContext dec : c.dec()) declist.add((DecNode) visit(dec));
 		return new ProgLetInNode(declist, visit(c.exp()));
 	}
@@ -246,12 +247,12 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 		if (print) printVarAndProdName(c);
 		List<FieldNode> fieldsList = new ArrayList<>();
 		for (int i = 1; i < c.ID().size(); i++) {
-			FieldNode f = new FieldNode(c.ID(i).getText(),(TypeNode) visit(c.type(i)));
+			FieldNode f = new FieldNode(c.ID(i).getText(),(TypeNode) visit(c.type(i-1)));
 			f.setLine(c.ID(i).getSymbol().getLine());
 			fieldsList.add(f);
 		}
 		List<MethodNode> methodsList = new ArrayList<>();
-		for(int i = 1; i < c.methdec().size(); i++){
+		for(int i = 0; i < c.methdec().size(); i++){
 			MethodNode m = (MethodNode) visit(c.methdec(i)); //TODO se non va il cast può essere un problema
 			methodsList.add(m);
 		}
@@ -283,11 +284,12 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 	public Node visitNew(NewContext c) {
 		if (print) printVarAndProdName(c);
 		List<Node> fieldsList = new ArrayList<>();
-		for (int i = 1; i < c.exp().size(); i++) {
+		for (int i = 0; i < c.exp().size(); i++) {
 			Node f = visit(c.exp(i)); //TODO cast potrebbe dare problemi
 			fieldsList.add(f);
 		}
 		Node n = new NewNode(c.ID().getText(),fieldsList);
+		n.setLine(c.NEW().getSymbol().getLine());
 		return n;
 	}
 
@@ -295,6 +297,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 	public Node visitNull(NullContext c) {
 		if (print) printVarAndProdName(c);
 		Node n = new EmptyNode();
+		n.setLine(c.NULL().getSymbol().getLine());
 		return n;
 	}
 
@@ -307,6 +310,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 			parList.add(f);
 		}
 		Node n = new ClassCallNode(c.ID(0).getText(), c.ID(1).getText(),parList);
+		n.setLine(c.ID(0).getSymbol().getLine());
 		return n;
 	}
 }

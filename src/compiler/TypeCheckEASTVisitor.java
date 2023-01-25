@@ -233,11 +233,6 @@ public class TypeCheckEASTVisitor extends BaseEASTVisitor<TypeNode,TypeException
 	}
 
 	@Override
-	public TypeNode visitNode(EmptyTypeNode n) throws TypeException{
-		return new EmptyTypeNode();
-	}
-
-	@Override
 	public TypeNode visitNode(IdNode n) throws TypeException {
 		if (print) printNode(n,n.id);
 		TypeNode t = visit(n.entry); 
@@ -256,6 +251,12 @@ public class TypeCheckEASTVisitor extends BaseEASTVisitor<TypeNode,TypeException
 	public TypeNode visitNode(IntNode n) {
 		if (print) printNode(n,n.val.toString());
 		return new IntTypeNode();
+	}
+
+	@Override
+	public TypeNode visitNode(EmptyNode n) throws TypeException {
+		if (print) printNode(n);
+		return new EmptyTypeNode();
 	}
 
 // gestione tipi incompleti	(se lo sono lancia eccezione)
@@ -280,7 +281,27 @@ public class TypeCheckEASTVisitor extends BaseEASTVisitor<TypeNode,TypeException
 		return null;
 	}
 
-// STentry (ritorna campo type)
+	@Override
+	public TypeNode visitNode(RefTypeNode n){
+		if (print) printNode(n, n.id_class);
+		return null;
+	}
+
+	@Override
+	public TypeNode visitNode(ClassTypeNode n) throws TypeException {
+		if (print) printNode(n);
+		for(TypeNode f : n.allFields) visit(f);
+		for(ArrowTypeNode m : n.allMethods) visit(m);
+		return null;
+	}
+
+	@Override
+	public TypeNode visitNode(EmptyTypeNode n) throws TypeException{
+		if (print) printNode(n);
+		return null;
+	}
+
+	// STentry (ritorna campo type)
 
 	@Override
 	public TypeNode visitSTentry(STentry entry) throws TypeException {

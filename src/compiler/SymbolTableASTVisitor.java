@@ -232,7 +232,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 	}
 
 	@Override
-	public Void visitNode(ClassNode n) { //TODO non viene chiamato mai, viene chiamata una classe prima di essere in symboltable
+	public Void visitNode(ClassNode n) {
 		if (print) printNode(n);
 		Map<String, STentry> hm = symTable.get(nestingLevel);
 		ClassTypeNode type = new ClassTypeNode(new ArrayList<>(), new ArrayList<>());
@@ -251,11 +251,12 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 
 		int fieldOffset=-1;
 		for (FieldNode field : n.fields){
-			if (virtualTable.put(field.id, new STentry(nestingLevel,field.getType(),fieldOffset--)) != null) {
+			if (virtualTable.put(field.id, new STentry(nestingLevel,field.getType(),fieldOffset)) != null) {
 				System.out.println("Field id " + field.id + " at line "+ n.getLine() +" already declared");
 				stErrors++;
 			}
 			type.allFields.add(-fieldOffset-1,field.getType());
+			fieldOffset--;
 		}
 
 
@@ -328,7 +329,7 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 			RefTypeNode refTypeNode = (RefTypeNode)n.entry.type;
 			STentry methodEntry = classTable.get(refTypeNode.id_class).get(n.id_method);
 			if (methodEntry == null) {
-				System.out.println("Method id " + n.id_obj + " at line "+ n.getLine() + " not declared");
+				System.out.println("Method id " + n.id_method + " at line "+ n.getLine() + " not declared");
 				stErrors++;
 			} else {
 				n.methodEntry = methodEntry;
@@ -345,7 +346,9 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 		if(classTable.containsKey(n.id_class)){
 			STentry entry = symTable.get(0).get(n.id_class);
 			n.entry = entry;
+			for (Node f : n.fields) visit(f);
 		}
+
 		return null;
 	}
 }

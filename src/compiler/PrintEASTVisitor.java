@@ -153,7 +153,7 @@ public class PrintEASTVisitor extends BaseEASTVisitor<Void,VoidException> {
 
 	@Override
 	public Void visitNode(IdNode n) {
-		printNode(n,n.id+" at nestinglevel "+n.nl); 
+		printNode(n,n.id+" at nestinglevel "+n.nl);
 		visit(n.entry);
 		return null;
 	}
@@ -199,4 +199,77 @@ public class PrintEASTVisitor extends BaseEASTVisitor<Void,VoidException> {
 		return null;
 	}
 
+	@Override
+	public Void visitNode(NewNode n) {
+		printNode(n, n.id_class);
+		for(Node f : n.fields) visit(f);
+		visit(n.entry);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(ClassNode n) {
+		printNode(n, n.id);
+		for(FieldNode f : n.fields) visit(f);
+		for(MethodNode m : n.methods) visit(m);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(EmptyNode n) {
+		printNode(n);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(MethodNode n) {
+		printNode(n,n.id);
+		visit(n.retType);
+		for (ParNode par : n.parlist) visit(par);
+		for (Node dec : n.declist) visit(dec);
+		visit(n.exp);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(FieldNode n) {
+		printNode(n,n.id);
+		visit(n.getType());
+		return null;
+	}
+
+	@Override
+	public Void visitNode(ClassCallNode n) {
+		printNode(n,n.id_method+" at nestinglevel "+n.nl);
+		visit(n.entry);
+		for (Node arg : n.arglist) visit(arg);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(EmptyTypeNode n) {
+		printNode(n);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(RefTypeNode n) {
+		printNode(n, n.id_class);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(ClassTypeNode n){
+		printNode(n);
+		for(TypeNode f : n.allFields) visit(f);
+		for(ArrowTypeNode m : n.allMethods) visit(m);
+		return null;
+	}
+
+	@Override
+	public Void visitNode(MethodTypeNode n) {
+		printNode(n);
+		visit(n.fun);
+		return null;
+	}
 }

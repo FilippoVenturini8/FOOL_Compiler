@@ -1,6 +1,4 @@
 let
-  class List (f:int, r:List) {
-    fun first:int() f;
-    fun rest:List() r;
-  }
+  fun g:bool (b:bool)
+     print(b);
 in print(2);

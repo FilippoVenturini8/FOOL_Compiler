@@ -112,7 +112,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 		String labelsCode = null;
 
 		for (String label : dispatchTable){
-			String lCode = nlJoin(
+			labelsCode = nlJoin(labelsCode, nlJoin(
 					"push "+label, //Aggiunge l'etichetta allo stack
 					"lhp", //Aggiunge l'indirizzo hp a cui metterla
 					"sw", //Inserisce label all'indirizzo hp
@@ -120,8 +120,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 					"push 1", //Inserisce 1 sullo stack
 					"add", //Incrementa hp e lo rimette sullo stack
 					"shp" //Si salva nel registro il valore incrementato di hp
-			);
-			labelsCode = nlJoin(label, lCode);
+			));
 		}
 
 		return nlJoin(
@@ -268,14 +267,6 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 				"push 0",
 				l2+":"
 		);
-	}
-
-	@Override
-	public String visitNode(EmptyTypeNode n){
-	  if (print) printNode(n);
-	  return nlJoin(
-			  "push -1"
-	  );
 	}
 
 	@Override
@@ -434,5 +425,13 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 	public String visitNode(IntNode n) {
 		if (print) printNode(n,n.val.toString());
 		return "push "+n.val;
+	}
+
+	@Override
+	public String visitNode(EmptyNode n){
+		if (print) printNode(n);
+		return nlJoin(
+				"push -1"
+		);
 	}
 }
