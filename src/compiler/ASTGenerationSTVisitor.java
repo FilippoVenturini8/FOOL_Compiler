@@ -305,7 +305,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 	public Node visitDotCall(DotCallContext c) {
 		if (print) printVarAndProdName(c);
 		List<Node> parList = new ArrayList<>();
-		for (int i = 1; i < c.exp().size(); i++) {
+		for (int i = 0; i < c.exp().size(); i++) {
 			Node f = visit(c.exp(i)); //TODO NON C'è cast potrebbe dare problemi
 			parList.add(f);
 		}

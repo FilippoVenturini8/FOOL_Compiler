@@ -1,4 +1,8 @@
 let
-  fun g:bool (b:bool)
-     print(b);
-in print(2);
+  class A (){
+
+  }
+  fun g:int ()
+     print(3);
+  var ogg:A = new A();
+in g();

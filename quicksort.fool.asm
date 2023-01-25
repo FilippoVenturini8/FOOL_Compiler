@@ -296,6 +296,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 0
 add
 lw
@@ -310,6 +311,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw
@@ -369,6 +371,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 0
 add
 lw
@@ -386,6 +389,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw
@@ -503,6 +507,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 0
 add
 lw
@@ -544,6 +549,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw
@@ -567,6 +573,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 0
 add
 lw
@@ -588,6 +595,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw
@@ -666,6 +674,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 0
 add
 lw
@@ -707,6 +716,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw
@@ -768,6 +778,7 @@ lw
 stm
 ltm
 ltm
+lw
 push 1
 add
 lw

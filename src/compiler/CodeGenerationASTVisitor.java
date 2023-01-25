@@ -324,6 +324,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 					"stm", // set $tm to popped value (with the aim of duplicating top of stack)
 					"ltm", // load Access Link (pointer to frame of function "id" declaration)
 					"ltm", // duplicate top of stack
+					"lw", //Push on the stack the value of the object pointer (address to the dispatch table)
 					"push "+n.entry.offset, "add", // compute address of "id" declaration
 					"lw", // load address of "id" function
 					"js"  // jump to popped address (saving address of subsequent instruction in $ra)
@@ -340,6 +341,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 					"ltm", // duplicate top of stack
 					"push "+n.entry.offset, "add", // compute address of "id" declaration
 					"lw", // load address of "id" function
+					//TODO ERRORE QUI
 					"js"  // jump to popped address (saving address of subsequent instruction in $ra)
 			);
 		}
@@ -395,6 +397,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 				"stm", //Set $tm to the popped value
 				"ltm",
 				"ltm", //Duplicate the top of the stack
+				"lw",
 				"push "+n.methodEntry.offset, "add", //Find ID2 in the dispatch table
 				"lw", // load address of "id" function
 				"js"  // jump to popped address (saving address of subsequent instruction in $ra)
