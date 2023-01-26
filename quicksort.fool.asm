@@ -37,11 +37,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -61,11 +59,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -85,11 +81,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -109,11 +103,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -133,11 +125,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -157,11 +147,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -248,11 +236,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -297,6 +283,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 0
 add
 lw
@@ -311,6 +298,7 @@ lw
 stm
 ltm
 ltm
+lw
 lw
 push 1
 add
@@ -372,6 +360,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 0
 add
 lw
@@ -389,6 +378,7 @@ lw
 stm
 ltm
 ltm
+lw
 lw
 push 1
 add
@@ -415,11 +405,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -508,6 +496,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 0
 add
 lw
@@ -550,6 +539,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 1
 add
 lw
@@ -574,6 +564,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 0
 add
 lw
@@ -595,6 +586,7 @@ lw
 stm
 ltm
 ltm
+lw
 lw
 push 1
 add
@@ -621,11 +613,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -675,6 +665,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 0
 add
 lw
@@ -717,6 +708,7 @@ stm
 ltm
 ltm
 lw
+lw
 push 1
 add
 lw
@@ -751,11 +743,9 @@ lhp
 push 1
 add
 shp
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp
@@ -778,6 +768,7 @@ lw
 stm
 ltm
 ltm
+lw
 lw
 push 1
 add

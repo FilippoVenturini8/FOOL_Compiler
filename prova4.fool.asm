@@ -1,11 +1,9 @@
 push 0
 lhp
 push function0
-cfp
-lfp
+push 10000
 push -2
 add
-lw
 lhp
 sw
 lhp

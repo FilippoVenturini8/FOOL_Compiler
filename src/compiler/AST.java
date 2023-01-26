@@ -298,7 +298,7 @@ public class AST {
 
 	public static class NewNode extends Node{
 		String id_class;
-		List<Node> fields; //TODO prima erano FieldNode
+		List<Node> fields;
 		STentry entry;
 		NewNode(String id, List<Node>f){
 			id_class = id;

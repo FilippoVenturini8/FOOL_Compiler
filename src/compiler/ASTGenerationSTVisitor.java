@@ -253,7 +253,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 		}
 		List<MethodNode> methodsList = new ArrayList<>();
 		for(int i = 0; i < c.methdec().size(); i++){
-			MethodNode m = (MethodNode) visit(c.methdec(i)); //TODO se non va il cast può essere un problema
+			MethodNode m = (MethodNode) visit(c.methdec(i));
 			methodsList.add(m);
 		}
 		Node n = new ClassNode(c.ID().get(0).getText(),fieldsList, methodsList);
@@ -285,7 +285,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 		if (print) printVarAndProdName(c);
 		List<Node> fieldsList = new ArrayList<>();
 		for (int i = 0; i < c.exp().size(); i++) {
-			Node f = visit(c.exp(i)); //TODO cast potrebbe dare problemi
+			Node f = visit(c.exp(i));
 			fieldsList.add(f);
 		}
 		Node n = new NewNode(c.ID().getText(),fieldsList);
@@ -306,7 +306,7 @@ public class ASTGenerationSTVisitor extends FOOLBaseVisitor<Node> {
 		if (print) printVarAndProdName(c);
 		List<Node> parList = new ArrayList<>();
 		for (int i = 0; i < c.exp().size(); i++) {
-			Node f = visit(c.exp(i)); //TODO NON C'è cast potrebbe dare problemi
+			Node f = visit(c.exp(i));
 			parList.add(f);
 		}
 		Node n = new ClassCallNode(c.ID(0).getText(), c.ID(1).getText(),parList);

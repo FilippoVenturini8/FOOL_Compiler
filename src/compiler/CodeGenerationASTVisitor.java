@@ -3,6 +3,7 @@ package compiler;
 import compiler.AST.*;
 import compiler.lib.*;
 import compiler.exc.*;
+import svm.ExecuteVM;
 
 import java.util.ArrayList;
 
@@ -328,7 +329,6 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 					"push "+n.entry.offset, "add", // compute address of "id" declaration
 					"lw", // load address of "id" function
 					"js"  // jump to popped address (saving address of subsequent instruction in $ra)
-					//TODO DA MODIFICARE PER ANDARE NELLA DISPATCH TABLE
 			);
 		}else{
 			return nlJoin(
@@ -341,7 +341,6 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 					"ltm", // duplicate top of stack
 					"push "+n.entry.offset, "add", // compute address of "id" declaration
 					"lw", // load address of "id" function
-					//TODO ERRORE QUI
 					"js"  // jump to popped address (saving address of subsequent instruction in $ra)
 			);
 		}
@@ -364,20 +363,16 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 			));
 		}
 		return nlJoin(
-				argCode,
-				storeInHeap,
-				"cfp", //Set value of fp to sp (MEMSIZE)
-				"lfp", //Push MEMSIZE on stack
-				"push "+n.entry.offset, //Push ID offset on the stack
+				argCode,storeInHeap,
+				"push " + ExecuteVM.MEMSIZE,"push "+ n.entry.offset, //Push ID offset on the stack
 				"add", //Calculate the address of the dispatch pointer
-				"lw", //Push the dispatch pointer at the address on the top of the stack
-				"lhp", //Push on the stack the address of HP
-				"sw", //Save the dispatch pointer at the address of hp
-				"lhp", //Push on the stack the address of HP
-				"lhp", //Push on the stack the address of HP
-				"push 1", //Push 1 on the stack
-				"add", //Increment hp
-				"shp" //Save incremented hp
+				"lhp",// load the heap pointer on the stack
+				"sw",
+				"lhp",
+				"lhp",
+				"push 1",
+				"add",
+				"shp"
 		);
 	}
 
@@ -398,10 +393,10 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 				"ltm",
 				"ltm", //Duplicate the top of the stack
 				"lw",
-				"push "+n.methodEntry.offset, "add", //Find ID2 in the dispatch table
 				"lw", // load address of "id" function
+				"push "+n.methodEntry.offset, "add", //Find ID2 in the dispatch table
+				"lw",
 				"js"  // jump to popped address (saving address of subsequent instruction in $ra)
-				//TODO se non va togliere un lw e js
 		);
 	}
 
