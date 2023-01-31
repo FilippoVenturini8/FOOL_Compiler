@@ -343,11 +343,16 @@ public class SymbolTableASTVisitor extends BaseASTVisitor<Void,VoidException> {
 	@Override
 	public Void visitNode(NewNode n) {
 		if (print) printNode(n);
-		if(classTable.containsKey(n.id_class)){
-			STentry entry = symTable.get(0).get(n.id_class);
-			n.entry = entry;
-			for (Node f : n.fields) visit(f);
+
+		if(!classTable.containsKey(n.id_class)){
+			System.out.println("Class " + n.id_class + " at line " + n.getLine() + " is not a valid class name ");
+			stErrors++;
 		}
+
+		//Prende dall'ambiente globale l'entry della classe corrispondente al new
+		STentry entry = symTable.get(0).get(n.id_class);
+		n.entry = entry;
+		for (Node f : n.fields) visit(f);
 
 		return null;
 	}

@@ -196,6 +196,7 @@ public class CodeGenerationASTVisitor extends BaseASTVisitor<String, VoidExcepti
 		);
 	}
 
+	//Se n2 <= n1 allora n1 >= n2
 	@Override
 	public String visitNode(GreaterEqualNode n) {
 		if (print) printNode(n);

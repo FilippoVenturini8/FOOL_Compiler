@@ -243,7 +243,7 @@ public class AST {
 			fields = Collections.unmodifiableList(f);
 			methods = Collections.unmodifiableList(m);
 		}
-		//TODO aggiungere setType
+
 		@Override
 		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
 	}
@@ -272,8 +272,6 @@ public class AST {
 			declist=Collections.unmodifiableList(dl);
 			exp=e;
 		}
-
-		//TODO void setType(TypeNode t) {type = t;}
 
 		@Override
 		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
