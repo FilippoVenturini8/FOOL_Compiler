@@ -38,9 +38,7 @@ public class AST {
 	    	declist=Collections.unmodifiableList(dl); 
 	    	exp=e;
 	    }
-		
-		//void setType(TypeNode t) {type = t;}
-		
+
 		@Override
 		public <S,E extends Exception> S accept(BaseASTVisitor<S,E> visitor) throws E {return visitor.visitNode(this);}
 	}
